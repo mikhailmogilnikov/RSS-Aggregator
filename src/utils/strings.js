@@ -8,6 +8,7 @@ export default {
   feedback: {
     invalidValidation: 'invalidValidation',
     invalidRss: 'invalidRss',
+    networkError: 'networkError',
     exists: 'exists',
     loaded: 'loaded',
   },
