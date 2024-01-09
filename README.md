@@ -5,6 +5,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/c31f2b96bb457a01afa5/maintainability)](https://codeclimate.com/github/mikhailmogilnikov/frontend-project-11/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c31f2b96bb457a01afa5/test_coverage)](https://codeclimate.com/github/mikhailmogilnikov/frontend-project-11/test_coverage)
 
+[Link to working project](rssagregator-three.vercel.app)
+
 ## Setup
 
 ```sh
