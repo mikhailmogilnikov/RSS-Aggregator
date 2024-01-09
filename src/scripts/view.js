@@ -138,7 +138,7 @@ const renderFeedList = (locales) => {
     });
 
     postsWrapper.append(postsTitleWrapper, postsUl);
-    domElements.lists.feeds.append(postsWrapper);
+    domElements.lists.posts.append(postsWrapper);
   };
 
   renderFeed();
