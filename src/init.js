@@ -6,14 +6,14 @@ import domElements from './utils/domElements.js';
 
 const schema = yup.string().required('this is a required field').url();
 
-export default () => {
+export default (locales) => {
   const state = {
     formState: strings.formStates.init,
     feedList: [],
     feedback: null,
   };
 
-  const watchedState = view(state);
+  const watchedState = view(state, locales);
 
   domElements.form.submit.addEventListener('click', (e) => {
     e.preventDefault();

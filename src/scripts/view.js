@@ -19,19 +19,19 @@ const renderFormState = (value) => {
   }
 };
 
-const renderFeedback = (value) => {
+const renderFeedback = (value, locales) => {
   switch (value) {
     case 'invalidValidation':
-      domElements.form.feedback.textContent = 'Ссылка должна быть валидным URL';
+      domElements.form.feedback.textContent = locales.t('feedback.invalidValidation');
       break;
     case 'invalidRss':
-      domElements.form.feedback.textContent = 'Ресурс не содержит валидный RSS';
+      domElements.form.feedback.textContent = locales.t('feedback.invalidRss');
       break;
     case 'exists':
-      domElements.form.feedback.textContent = 'RSS уже существует';
+      domElements.form.feedback.textContent = locales.t('feedback.exists');
       break;
     case 'loaded':
-      domElements.form.feedback.textContent = 'RSS успешно загружен';
+      domElements.form.feedback.textContent = locales.t('feedback.loaded');
       break;
     case null:
       domElements.form.feedback.textContent = '';
@@ -49,13 +49,13 @@ const renderFeedback = (value) => {
 
 const renderFeedList = () => {};
 
-const render = () => (path, value) => {
+const render = (locales) => (path, value) => {
   switch (path) {
     case 'formState':
       renderFormState(value);
       break;
     case 'feedback':
-      renderFeedback(value);
+      renderFeedback(value, locales);
       break;
     case 'feedList':
       renderFeedList();
@@ -65,4 +65,4 @@ const render = () => (path, value) => {
   }
 };
 
-export default (state) => onChange(state, render());
+export default (state, locales) => onChange(state, render(locales));
