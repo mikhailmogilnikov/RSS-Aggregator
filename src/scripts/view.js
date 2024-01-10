@@ -51,98 +51,100 @@ const renderFeedback = (value, locales) => {
   }
 };
 
-const renderFeedList = (locales) => {
+const renderFeed = (locales) => {
+  const feedWrapper = document.createElement('div');
+  feedWrapper.classList.add('card', 'border-0');
+
+  const feedTitleWrapper = document.createElement('div');
+  feedTitleWrapper.classList.add('card-body');
+
+  const feedTitleH4 = document.createElement('h4');
+  feedTitleH4.classList.add('card-title', 'h4');
+  feedTitleH4.textContent = locales.t('feedsTitle');
+
+  const feedUl = document.createElement('ul');
+  feedUl.classList.add('list-group', 'border-0', 'rounded-0');
+
+  feedTitleWrapper.append(feedTitleH4);
+
+  parsedData.feeds.forEach((feed) => {
+    const feedLi = document.createElement('li');
+    feedLi.classList.add('list-group-item', 'border-0', 'border-end-0');
+
+    const feedH3 = document.createElement('h3');
+    feedH3.classList.add('h6', 'm-0');
+    feedH3.textContent = feed.title;
+
+    const feedP = document.createElement('p');
+    feedP.classList.add('m-0', 'small', 'text-black-50');
+    feedP.textContent = feed.description;
+
+    feedLi.append(feedH3, feedP);
+    feedUl.append(feedLi);
+  });
+
+  feedWrapper.append(feedTitleWrapper, feedUl);
+
   domElements.lists.feeds.textContent = '';
+  domElements.lists.feeds.append(feedWrapper);
+};
 
-  const renderFeed = () => {
-    const feedWrapper = document.createElement('div');
-    feedWrapper.classList.add('card', 'border-0');
+const renderPosts = (locales) => {
+  const postsWrapper = document.createElement('div');
+  postsWrapper.classList.add('card', 'border-0');
 
-    const feedTitleWrapper = document.createElement('div');
-    feedTitleWrapper.classList.add('card-body');
+  const postsTitleWrapper = document.createElement('div');
+  postsTitleWrapper.classList.add('card-body');
 
-    const feedTitleH4 = document.createElement('h4');
-    feedTitleH4.classList.add('card-title', 'h4');
-    feedTitleH4.textContent = locales.t('feedsTitle');
+  const postsTitleH4 = document.createElement('h4');
+  postsTitleH4.classList.add('card-title', 'h4');
+  postsTitleH4.textContent = locales.t('postsTitle');
 
-    const feedUl = document.createElement('ul');
-    feedUl.classList.add('list-group', 'border-0', 'rounded-0');
+  const postsUl = document.createElement('ul');
+  postsUl.classList.add('list-group', 'border-0', 'rounded-0');
 
-    feedTitleWrapper.append(feedTitleH4);
+  postsTitleWrapper.append(postsTitleH4);
 
-    parsedData.feed.forEach((feed) => {
-      const feedLi = document.createElement('li');
-      feedLi.classList.add('list-group-item', 'border-0', 'border-end-0');
+  parsedData.posts.forEach((post) => {
+    const postLi = document.createElement('div');
+    postLi.classList.add(
+      'list-group-item',
+      'd-flex',
+      'justify-content-between',
+      'align-items-start',
+      'border-0',
+      'border-end-0',
+    );
 
-      const feedH3 = document.createElement('h3');
-      feedH3.classList.add('h6', 'm-0');
-      feedH3.textContent = feed.title;
+    const postLink = document.createElement('a');
+    postLink.setAttribute('href', post.link);
+    postLink.classList.add('fw-bold');
+    postLink.setAttribute('data-id', post.id);
+    postLink.setAttribute('target', '_blank');
+    postLink.setAttribute('rel', 'noopener noreferrer');
+    postLink.textContent = post.title;
 
-      const feedP = document.createElement('p');
-      feedP.classList.add('m-0', 'small', 'text-black-50');
-      feedP.textContent = feed.description;
+    const postButton = document.createElement('button');
+    postButton.setAttribute('type', 'button');
+    postButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+    postButton.setAttribute('data-id', post.id);
+    postButton.setAttribute('data-bs-toggle', 'modal');
+    postButton.setAttribute('data-bs-target', '#modal');
+    postButton.textContent = locales.t('posts.button');
 
-      feedLi.append(feedH3, feedP);
-      feedUl.append(feedLi);
-    });
+    postLi.append(postLink, postButton);
+    postsUl.append(postLi);
+  });
 
-    feedWrapper.append(feedTitleWrapper, feedUl);
-    domElements.lists.feeds.append(feedWrapper);
-  };
+  postsWrapper.append(postsTitleWrapper, postsUl);
 
-  const renderPosts = () => {
-    const postsWrapper = document.createElement('div');
-    postsWrapper.classList.add('card', 'border-0');
+  domElements.lists.posts.textContent = '';
+  domElements.lists.posts.append(postsWrapper);
+};
 
-    const postsTitleWrapper = document.createElement('div');
-    postsTitleWrapper.classList.add('card-body');
-
-    const postsTitleH4 = document.createElement('h4');
-    postsTitleH4.classList.add('card-title', 'h4');
-    postsTitleH4.textContent = locales.t('postsTitle');
-
-    const postsUl = document.createElement('ul');
-    postsUl.classList.add('list-group', 'border-0', 'rounded-0');
-
-    postsTitleWrapper.append(postsTitleH4);
-
-    parsedData.posts.forEach((post) => {
-      const postLi = document.createElement('div');
-      postLi.classList.add(
-        'list-group-item',
-        'd-flex',
-        'justify-content-between',
-        'align-items-start',
-        'border-0',
-        'border-end-0',
-      );
-
-      const postLink = document.createElement('a');
-      postLink.setAttribute('href', post.link);
-      postLink.classList.add('fw-bold');
-      postLink.setAttribute('data-id', post.id);
-      postLink.setAttribute('target', '_blank');
-      postLink.setAttribute('rel', 'noopener noreferrer');
-      postLink.textContent = post.title;
-
-      const postButton = document.createElement('button');
-      postButton.setAttribute('type', 'button');
-      postButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
-      postButton.setAttribute('data-id', post.id);
-      postButton.setAttribute('data-bs-toggle', 'modal');
-      postButton.setAttribute('data-bs-target', '#modal');
-      postButton.textContent = locales.t('posts.button');
-
-      postLi.append(postLink, postButton);
-      postsUl.append(postLi);
-    });
-
-    postsWrapper.append(postsTitleWrapper, postsUl);
-    domElements.lists.posts.append(postsWrapper);
-  };
-
-  renderFeed();
-  renderPosts();
+const renderNewFeed = (locales) => {
+  renderFeed(locales);
+  renderPosts(locales);
 };
 
 const render = (locales) => (path, value) => {
@@ -153,8 +155,11 @@ const render = (locales) => (path, value) => {
     case 'feedback':
       renderFeedback(value, locales);
       break;
+    case 'updaterCounter':
+      renderPosts(locales);
+      break;
     case 'feedList':
-      renderFeedList(locales);
+      renderNewFeed(locales);
       break;
     default:
       throw new Error(`Error: unresolved path: ${path}`);

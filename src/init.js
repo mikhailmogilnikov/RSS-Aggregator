@@ -7,6 +7,7 @@ export default (locales) => {
     formState: strings.formStates.init,
     feedList: [],
     feedback: null,
+    updaterCounter: 0,
   };
 
   const watchedState = view(state, locales);

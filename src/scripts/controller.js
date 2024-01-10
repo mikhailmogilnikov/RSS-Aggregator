@@ -4,21 +4,52 @@ import * as yup from 'yup';
 import axios from 'axios';
 import domElements from '../utils/domElements.js';
 import strings from '../utils/strings.js';
-import { normalizeUrl, parseRss, parseXML } from './utilities.js';
+import {
+  allOriginsUrl,
+  checkPostsChanges,
+  normalizeUrl,
+  parseRss,
+  parseXML,
+} from './utilities.js';
+import parsedData from '../utils/parsedData.js';
 
 const schema = yup.string().required('this is a required field').url();
 
+const feedsWatcher = (watchedState) => {
+  const requests = parsedData.feeds.map((feed) => axios
+    .get(allOriginsUrl(feed.url))
+    .then((response) => {
+      const rssDocument = parseXML(response);
+      const changes = checkPostsChanges(rssDocument, feed.id);
+      console.log(changes);
+      if (changes.length > 0) {
+        console.log('change posts');
+        parsedData.posts = [...changes, ...parsedData.posts];
+        watchedState.updaterCounter += 1;
+      }
+    })
+    .catch(() => {}));
+
+  Promise.all(requests).then(() => {
+    setTimeout(() => {
+      feedsWatcher(watchedState);
+    }, 5000);
+  });
+};
+
 const request = (watchedState, normalizedValue) => {
   axios
-    .get(
-      `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(
-        normalizedValue,
-      )}`,
-    )
+    .get(allOriginsUrl(normalizedValue))
     .then((response) => {
       try {
         const rssDocument = parseXML(response);
-        parseRss(rssDocument);
+        parseRss(rssDocument, normalizedValue);
+
+        if (watchedState.feedList.length === 0) {
+          setTimeout(() => {
+            feedsWatcher(watchedState);
+          }, 5000);
+        }
 
         watchedState.feedList.push(domElements.form.input?.value);
         watchedState.feedback = strings.feedback.loaded;
