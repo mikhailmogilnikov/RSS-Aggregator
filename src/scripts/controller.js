@@ -74,7 +74,10 @@ export default (state, watchedState) => {
 
     const normalizedValue = normalizeUrl(domElements.form.input.value);
 
-    if (state.feedList.includes(normalizedValue)) {
+    if (normalizedValue.length === 0) {
+      watchedState.formState = strings.formStates.invalid;
+      watchedState.feedback = strings.feedback.empty;
+    } else if (state.feedList.includes(normalizedValue)) {
       watchedState.formState = strings.formStates.invalid;
       watchedState.feedback = strings.feedback.exists;
     } else {

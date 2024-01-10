@@ -6,6 +6,7 @@ export default {
     valid: 'valid',
   },
   feedback: {
+    empty: 'empty',
     invalidValidation: 'invalidValidation',
     invalidRss: 'invalidRss',
     networkError: 'networkError',

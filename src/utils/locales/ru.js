@@ -1,6 +1,7 @@
 export default {
   translation: {
     feedback: {
+      empty: 'Не должно быть пустым',
       invalidValidation: 'Ссылка должна быть валидным URL',
       invalidRss: 'Ресурс не содержит валидный RSS',
       networkError: 'Ошибка сети',

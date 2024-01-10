@@ -21,6 +21,9 @@ const renderFormState = (value) => {
 
 const renderFeedback = (value, locales) => {
   switch (value) {
+    case 'empty':
+      domElements.form.feedback.textContent = locales.t('feedback.empty');
+      break;
     case 'invalidValidation':
       domElements.form.feedback.textContent = locales.t(
         'feedback.invalidValidation',
