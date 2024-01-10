@@ -21,9 +21,7 @@ const feedsWatcher = (watchedState) => {
     .then((response) => {
       const rssDocument = parseXML(response);
       const changes = checkPostsChanges(rssDocument, feed.id);
-      console.log(changes);
       if (changes.length > 0) {
-        console.log('change posts');
         parsedData.posts = [...changes, ...parsedData.posts];
         watchedState.updaterCounter += 1;
       }
@@ -63,8 +61,7 @@ const request = (watchedState, normalizedValue) => {
         domElements.form.input?.focus();
       }
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
       watchedState.formState = strings.formStates.invalid;
       watchedState.feedback = strings.feedback.networkError;
       domElements.form.input?.focus();

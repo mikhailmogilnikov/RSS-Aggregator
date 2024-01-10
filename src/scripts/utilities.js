@@ -31,7 +31,7 @@ const parseRss = (rssDocument, url) => {
     const link = item.querySelector('link');
 
     parsedData.posts.push({
-      // id: _.uniqueId('item_'),
+      id: _.uniqueId('item_'),
       feedId,
       title: title.textContent,
       description: description.textContent,
@@ -67,6 +67,7 @@ const checkPostsChanges = (rssDocument, feedId) => {
       return [
         ...acc,
         {
+          id: _.uniqueId('item_'),
           feedId,
           title: title.textContent,
           description: description.textContent,

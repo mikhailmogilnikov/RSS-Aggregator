@@ -6,6 +6,7 @@ export default (locales) => {
   const state = {
     formState: strings.formStates.init,
     feedList: [],
+    checkedPosts: [],
     feedback: null,
     updaterCounter: 0,
   };

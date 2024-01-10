@@ -89,7 +89,7 @@ const renderFeed = (locales) => {
   domElements.lists.feeds.append(feedWrapper);
 };
 
-const renderPosts = (locales) => {
+const renderPosts = (locales, state) => {
   const postsWrapper = document.createElement('div');
   postsWrapper.classList.add('card', 'border-0');
 
@@ -118,7 +118,11 @@ const renderPosts = (locales) => {
 
     const postLink = document.createElement('a');
     postLink.setAttribute('href', post.link);
-    postLink.classList.add('fw-bold');
+    if (state.checkedPosts.includes(post.id)) {
+      postLink.classList.add('fw-normal', 'link-secondary');
+    } else {
+      postLink.classList.add('fw-bold');
+    }
     postLink.setAttribute('data-id', post.id);
     postLink.setAttribute('target', '_blank');
     postLink.setAttribute('rel', 'noopener noreferrer');
@@ -131,6 +135,16 @@ const renderPosts = (locales) => {
     postButton.setAttribute('data-bs-toggle', 'modal');
     postButton.setAttribute('data-bs-target', '#modal');
     postButton.textContent = locales.t('posts.button');
+    postButton.addEventListener('click', () => {
+      postLink.classList.remove('fw-bold');
+      postLink.classList.add('fw-normal', 'link-secondary');
+
+      state.checkedPosts.push(post.id);
+
+      domElements.modal.title.textContent = post.title;
+      domElements.modal.description.textContent = post.description;
+      domElements.modal.link.setAttribute('href', post.link);
+    });
 
     postLi.append(postLink, postButton);
     postsUl.append(postLi);
@@ -142,12 +156,12 @@ const renderPosts = (locales) => {
   domElements.lists.posts.append(postsWrapper);
 };
 
-const renderNewFeed = (locales) => {
+const renderNewFeed = (locales, state) => {
   renderFeed(locales);
-  renderPosts(locales);
+  renderPosts(locales, state);
 };
 
-const render = (locales) => (path, value) => {
+const render = (locales, state) => (path, value) => {
   switch (path) {
     case 'formState':
       renderFormState(value);
@@ -155,15 +169,15 @@ const render = (locales) => (path, value) => {
     case 'feedback':
       renderFeedback(value, locales);
       break;
-    case 'updaterCounter':
-      renderPosts(locales);
+    case 'updaterCounter' || 'checkedPosts':
+      renderPosts(locales, state);
       break;
     case 'feedList':
-      renderNewFeed(locales);
+      renderNewFeed(locales, state);
       break;
     default:
       throw new Error(`Error: unresolved path: ${path}`);
   }
 };
 
-export default (state, locales) => onChange(state, render(locales));
+export default (state, locales) => onChange(state, render(locales, state));

@@ -8,4 +8,9 @@ export default {
     feeds: document.querySelector('.feeds'),
     posts: document.querySelector('.posts'),
   },
+  modal: {
+    title: document.querySelector('.modal-title'),
+    description: document.querySelector('.modal-body.text-break'),
+    link: document.querySelector('.btn.btn-primary.full-article'),
+  },
 };
