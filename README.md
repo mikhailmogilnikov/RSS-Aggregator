@@ -1,4 +1,4 @@
-# RSS-агрегатор
+# RSS-Aggregator
 
 [![Actions Status](https://github.com/mikhailmogilnikov/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/mikhailmogilnikov/frontend-project-11/actions)
 [![Actions Status](https://github.com/mikhailmogilnikov/frontend-project-11/actions/workflows/nodejs.yml/badge.svg)](https://github.com/mikhailmogilnikov/frontend-project-11/actions)
